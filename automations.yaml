@@ -1,0 +1,586 @@
+- id: '1676319983277'
+  alias: '[Rachael] - SOS Automation (Singcall)'
+  description: ''
+  triggers:
+  - type: unsafe
+    device_id: 421f2d0e188aa509a84f3903d66a6842
+    entity_id: 1b566a71219e8cbcf5ae905ec2b10f78
+    domain: binary_sensor
+    trigger: device
+  conditions: []
+  actions:
+  - repeat:
+      count: '10'
+      sequence:
+      - data:
+          message: SOS button has activated “SOS”.
+          title: SOS - EMERGENCY
+          data:
+            push:
+              sound:
+                name: default
+                critical: 1
+                volume: 1
+        enabled: true
+        action: notify.mobile_app_iphone_13
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 2
+          milliseconds: 0
+  mode: single
+- id: '1688897757453'
+  alias: '[Jane] - SOS Automation 2 (Singcall)'
+  description: ''
+  triggers:
+  - type: unsafe
+    device_id: 8787a394814a46262c1229d0ac3ecf10
+    entity_id: 5325d97d95481e87496cc14c44999fff
+    domain: binary_sensor
+    trigger: device
+  conditions: []
+  actions:
+  - repeat:
+      count: '10'
+      sequence:
+      - data:
+          message: SOS button has activated “SOS”.
+          title: MUM - SOS - EMERGENCY
+          data:
+            push:
+              sound:
+                name: default
+                critical: 1
+                volume: 1
+        enabled: true
+        action: notify.mobile_app_iphone_13
+      - action: notify.mobile_app_iphone
+        metadata: {}
+        data:
+          message: SOS button has activated “SOS”.
+          title: JANE - SOS - EMERGENCY
+          data:
+            push:
+              sound:
+                name: default
+                critical: 1
+                volume: 1
+      - action: notify.mobile_app_alexs_iphone
+        metadata: {}
+        data:
+          message: SOS button has activated “SOS”.
+          title: JANE - SOS - EMERGENCY
+          data:
+            push:
+              sound:
+                name: default
+                critical: 1
+                volume: 1
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 2
+          milliseconds: 0
+  mode: single
+- id: '1704153102990'
+  alias: Jane Morgan-Smith - Notification when Jane's Mobile offhook
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.sm_a715f_phone_state
+    from:
+    to: offhook
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_13
+    data:
+      message: is on the phone.
+      title: Jane Morgan-Smith
+  mode: single
+- id: '1704154000764'
+  alias: Damien Morgan-Smith - All Zone Notifications
+  description: ''
+  use_blueprint:
+    path: panhans/zone_notification_extended.yaml
+    input:
+      persons:
+      - person.jane_morgan_smith
+      - person.rachael_taylor
+      zones:
+      - zone.15_sharps_lane
+      - zone.25_warren_drive
+      - zone.home
+      - zone.damien_morgan_smith_work
+      - zone.dino_softplay
+      - zone.warrender_park
+      - zone.newnham_primary_and_junior_school
+      - zone.paul_and_charlie_s
+      - zone.church
+      - zone.garden_office
+      - zone.steve_and_gemma_s
+      - zone.ruislip_manor_station
+      - zone.amys
+      - zone.asda_south_ruislip
+      - zone.baker_street_station
+      - zone.cat_and_immys
+      - zone.harrow_on_the_hill
+      - zone.immys_work
+      - zone.rachaels_dads
+      - zone.tumble_tots
+      zones_leaving:
+      - zone.15_sharps_lane
+      - zone.25_warren_drive
+      - zone.home
+      - zone.damien_morgan_smith_work
+      - zone.dino_softplay
+      - zone.newnham_primary_and_junior_school
+      - zone.paul_and_charlie_s
+      - zone.warrender_park
+      - zone.church
+      - zone.garden_office
+      - zone.steve_and_gemma_s
+      - zone.ruislip_manor_station
+      - zone.amys
+      - zone.asda_south_ruislip
+      - zone.baker_street_station
+      - zone.cat_and_immys
+      - zone.harrow_on_the_hill
+      - zone.immys_work
+      - zone.rachaels_dads
+      - zone.tumble_tots
+      notify_device: 0c1853f91744de4032355217de368428
+      title_arriving: '{{ person }}'
+      title_leaving: '{{ person }}'
+- id: '1704299595400'
+  alias: Arm Alarm when Brixham Crescent in Empty
+  description: ''
+  triggers:
+  - entity_id:
+    - zone.home
+    to: '0'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    trigger: state
+  conditions: []
+  actions:
+  - target:
+      device_id: ce7bb7c1b6a6698f04c3d0a415e80c12
+    data:
+      code: '2009'
+    action: alarm_control_panel.alarm_arm_away
+  - type: turn_off
+    device_id: 478f8cc43bd38cdea54a37450c694af0
+    entity_id: 3677294e8b7be7b8a0606dcc5f0d1870
+    domain: remote
+  mode: single
+- id: '1705012392857'
+  alias: Damien Morgan-Smith - Zone Alerts to Rachael Taylor
+  description: ''
+  use_blueprint:
+    path: panhans/zone_notification_extended.yaml
+    input:
+      persons:
+      - person.damien_morgan_smith
+      zones:
+      - zone.15_sharps_lane
+      - zone.25_warren_drive
+      - zone.home
+      - zone.damien_morgan_smith_work
+      - zone.church
+      - zone.dino_softplay
+      - zone.steve_and_gemma_s
+      - zone.newnham_primary_and_junior_school
+      - zone.paul_and_charlie_s
+      - zone.warrender_park
+      - zone.ruislip_manor_station
+      - zone.amys
+      - zone.asda_south_ruislip
+      - zone.baker_street_station
+      - zone.cat_and_immys
+      - zone.harrow_on_the_hill
+      - zone.immys_work
+      - zone.rachaels_dads
+      - zone.tumble_tots
+      zones_leaving:
+      - zone.15_sharps_lane
+      - zone.25_warren_drive
+      - zone.home
+      - zone.damien_morgan_smith_work
+      - zone.church
+      - zone.dino_softplay
+      - zone.steve_and_gemma_s
+      - zone.newnham_primary_and_junior_school
+      - zone.paul_and_charlie_s
+      - zone.warrender_park
+      - zone.ruislip_manor_station
+      - zone.amys
+      - zone.asda_south_ruislip
+      - zone.baker_street_station
+      - zone.cat_and_immys
+      - zone.harrow_on_the_hill
+      - zone.immys_work
+      - zone.rachaels_dads
+      - zone.tumble_tots
+      notify_device: a133851a631c43a7ffc64d2c7e34e9ba
+      title_arriving: '{{ person }}'
+      title_leaving: '{{ person }}'
+- id: '1705087536742'
+  alias: Overnight Routine when in Bed
+  description: ''
+  triggers:
+  - entity_id:
+    - binary_sensor.damien_in_bed
+    from: 'off'
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.rachael_in_bed
+    state: 'on'
+  actions:
+  - metadata: {}
+    data:
+      code: '2009'
+    target:
+      entity_id: alarm_control_panel.ruislip_alarm
+    enabled: true
+    action: alarm_control_panel.alarm_arm_home
+  - action: light.turn_off
+    entity_id: all
+  - action: notify.mobile_app_iphone_11_2
+    data:
+      message: Alarm armed; Lights and Downstairs TV switched off; Smart Screen switched
+        off.
+      title: Overnight Routine
+  - data:
+      title: Overnight Routine
+      message: Alarm armed; Lights and Downstairs TV switched off; Smart Screen switched
+        off.
+    action: notify.mobile_app_iphone_13
+  mode: single
+- id: '1705325924192'
+  alias: Arm 25 Warren Drive when Empty
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - zone.25_warren_drive
+    to: '0'
+  condition: []
+  action:
+  - device_id: 5209cef477b4c2d94142191b153eb5bc
+    domain: alarm_control_panel
+    entity_id: 82cbfd79f155c2630ca1a37a7e2344a6
+    type: arm_away
+  - service: blink.trigger_camera
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - 6e8da84eb1d2ce91a94d981a1c709856
+      - f950a0b8f3214c5c058b849d0c302f7a
+  mode: single
+- id: '1705326252462'
+  alias: Disarm 25 Warren Drive when Occupied
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - zone.25_warren_drive
+    from: '0'
+  condition: []
+  action:
+  - device_id: 5209cef477b4c2d94142191b153eb5bc
+    domain: alarm_control_panel
+    entity_id: 82cbfd79f155c2630ca1a37a7e2344a6
+    type: disarm
+  mode: single
+- id: '1705352178264'
+  alias: Damien Morgan-Smith - Energy Saving Nag
+  description: ''
+  trigger:
+  - platform: device
+    device_id: 0c1853f91744de4032355217de368428
+    domain: device_tracker
+    entity_id: b0ded42b0804158c634fed382851bf32
+    type: leaves
+    zone: zone.home
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_13
+    data:
+      message: When you left the house you left {{ states["sensor.televisions_on"].state
+        }} TVs on, and {{ states["sensor.lights_on"].state }} lights on.
+  mode: single
+- id: '1705352293397'
+  alias: Rachael Taylor - Energy Saving Nag
+  description: ''
+  triggers:
+  - device_id: a133851a631c43a7ffc64d2c7e34e9ba
+    domain: device_tracker
+    entity_id: 2118caf0d71e17ba176fe0f3c8429dde
+    type: leaves
+    zone: zone.home
+    trigger: device
+  conditions: []
+  actions:
+  - data:
+      message: When you left the house you left {{ states["sensor.televisions_on"].state
+        }} TVs on, and {{ states["sensor.lights_on"].state }} lights on.
+    action: notify.mobile_app_iphone_11_2
+  mode: single
+- id: '1718631097633'
+  alias: Rachael Taylor - Started Driving
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.iphone_3_activity
+    to: Automotive
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_13
+    data:
+      title: Rachael Taylor
+      message: Started driving.
+  mode: single
+- id: '1718631167202'
+  alias: Rachael Taylor - Stopped Driving
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.iphone_3_activity
+    from: Automotive
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_13
+    data:
+      title: Rachael Taylor
+      message: Stopped driving.
+  mode: single
+- id: '1723238054190'
+  alias: Tag Tag 04-8C-7A-8A-E0-6A-81 is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 04-8C-7A-8A-E0-6A-81
+  condition: []
+  action:
+  - service: media_player.play_media
+    target:
+      entity_id:
+      - media_player.spotify_damien_morgan_smith
+    data:
+      media_content_id: spotify:episode:1sHU0wuGwss4AhrUpuCCYh
+      media_content_type: episode
+  mode: single
+- id: '1726240475240'
+  alias: Shutdown MagicMirror Setup
+  description: ''
+  triggers:
+  - at: '23:00:00'
+    trigger: time
+  conditions: []
+  actions:
+  - action: ssh_command.exec_command
+    metadata: {}
+    data:
+      host: 192.168.0.178
+      port: 22
+      user: dmorg
+      pass: Warren!Alphabet18
+      command: sudo shutdown
+  - delay:
+      hours: 0
+      minutes: 3
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 9b97bb811b1cc4bac24bb951cafa8645
+    entity_id: 5972fca81f1df2a6b4c22cb641cdfc2f
+    domain: switch
+  - type: turn_off
+    device_id: b59c348cb1d7fa81d223a102134e4b0c
+    entity_id: 3f72bbd54e5ac359be89c079ea1fb7f5
+    domain: switch
+  mode: single
+- id: '1726240994463'
+  alias: Startup MagicMirror Setup
+  description: ''
+  trigger:
+  - platform: time
+    at: 05:30:00
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 9b97bb811b1cc4bac24bb951cafa8645
+    entity_id: 5972fca81f1df2a6b4c22cb641cdfc2f
+    domain: switch
+  - type: turn_on
+    device_id: b59c348cb1d7fa81d223a102134e4b0c
+    entity_id: 3f72bbd54e5ac359be89c079ea1fb7f5
+    domain: switch
+  mode: single
+- id: '1732551721581'
+  alias: Turn on Zigbee Lounge Lights with Hue Lounge Lights
+  description: ''
+  triggers:
+  - device_id: 2ea15ef86d8ce4bd84857098cd3e1f9b
+    domain: hue
+    type: short_release
+    subtype: 1
+    unique_id: 32b9cc7d-5c10-40f6-81a8-f6de0ca5919a
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - 598e35db428a0ec6ac6d6213826c1d81
+      - 842559b546a4554c9e0f79833b715866
+      - 01d878c81c8e9d13b2d76dea2091023d
+      - 49439f5e61978f191b6c6e74043e2d60
+      - b090c2c28c6c198948c700c7d3c6ff96
+      - 9314799820acebe743c3b4661de69afc
+      - 5187d5f8a65c38dbf8a8674e8216bfa5
+  mode: single
+- id: '1732551904898'
+  alias: Turn off Dining Room Lights with Long Press
+  description: ''
+  triggers:
+  - device_id: 2ea15ef86d8ce4bd84857098cd3e1f9b
+    domain: hue
+    type: repeat
+    subtype: 4
+    unique_id: a37c8e5b-b419-49ae-b1bf-b4e775b48b1e
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.turn_off
+    data: {}
+    target:
+      device_id:
+      - 598e35db428a0ec6ac6d6213826c1d81
+      - 842559b546a4554c9e0f79833b715866
+      - 01d878c81c8e9d13b2d76dea2091023d
+  mode: single
+- id: '1732574080690'
+  alias: Turn off Lounge and Dining Lights with Short Press
+  description: ''
+  triggers:
+  - device_id: 2ea15ef86d8ce4bd84857098cd3e1f9b
+    domain: hue
+    type: short_release
+    subtype: 4
+    unique_id: a37c8e5b-b419-49ae-b1bf-b4e775b48b1e
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.turn_off
+    data: {}
+    target:
+      device_id:
+      - 598e35db428a0ec6ac6d6213826c1d81
+      - 842559b546a4554c9e0f79833b715866
+      - 01d878c81c8e9d13b2d76dea2091023d
+      - 49439f5e61978f191b6c6e74043e2d60
+      - b090c2c28c6c198948c700c7d3c6ff96
+      - 9314799820acebe743c3b4661de69afc
+      - 5187d5f8a65c38dbf8a8674e8216bfa5
+  mode: single
+- id: '1733046747644'
+  alias: Sync Dining Room Lights with Hue Lounge Lights
+  description: ''
+  triggers:
+  - entity_id: light.lounge
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: light.dining_room
+    state: 'on'
+  actions:
+  - target:
+      entity_id:
+      - light.dining_room
+    data:
+      brightness: '{{ state_attr(''light.lounge'', ''brightness'') }}'
+      rgb_color: '{{ state_attr(''light.lounge'', ''rgb_color'') }}'
+    action: light.turn_on
+  mode: single
+- id: '1733430318472'
+  alias: Turn off Sofa Lights with Long Press
+  description: ''
+  triggers:
+  - device_id: 2ea15ef86d8ce4bd84857098cd3e1f9b
+    domain: hue
+    type: repeat
+    subtype: 4
+    unique_id: a37c8e5b-b419-49ae-b1bf-b4e775b48b1e
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.turn_off
+    data: {}
+    target:
+      device_id:
+      - 49439f5e61978f191b6c6e74043e2d60
+      - b090c2c28c6c198948c700c7d3c6ff96
+      - 9314799820acebe743c3b4661de69afc
+      - 5187d5f8a65c38dbf8a8674e8216bfa5
+  mode: single
+- id: '1733430894688'
+  alias: Sync Sofa Lights with Hue Lounge Lights
+  description: ''
+  triggers:
+  - entity_id: light.lounge
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: light.sofa_lights
+    state: 'on'
+  actions:
+  - target:
+      entity_id:
+      - light.sofa_lights
+    data:
+      brightness: '{{ state_attr(''light.lounge'', ''brightness'') }}'
+      rgb_color: '{{ state_attr(''light.lounge'', ''rgb_color'') }}'
+    action: light.turn_on
+  mode: single
+- id: '1748120344472'
+  alias: Morning Ring Battery Report
+  description: ''
+  triggers:
+  - at: 07:00:00
+    trigger: time
+  conditions: []
+  actions:
+  - data:
+      title: Battery Report
+      message: "{% set report = \"\" %} {% set front_door = states('sensor.front_door_battery')
+        %} {% set porch_light = states('sensor.porch_light_battery') %} {% set garden_camera
+        = states('sensor.office_and_garden_battery') %} {% if front_door != 'unknown'
+        %}\n  {% set report = report + \"Front Door Camera: \" + front_door + \"%\\n\"
+        %}\n{% endif %} {% if porch_light != 'unknown' %}\n  {% set report = report
+        + \"Porch Camera: \" + porch_light + \"%\\n\" %}\n{% endif %} {% if garden_camera
+        != 'unknown' %}\n  {% set report = report + \"Garden Camera: \" + garden_camera
+        + \"%\\n\" %}\n{% endif %} {{ report }}\n"
+    action: notify.mobile_app_iphone_13
+  - data:
+      title: Battery Report
+      message: "{% set report = \"\" %} {% set front_door = states('sensor.front_door_battery')
+        %} {% set porch_light = states('sensor.porch_light_battery') %} {% set garden_camera
+        = states('sensor.office_and_garden_battery') %} {% if front_door != 'unknown'
+        %}\n  {% set report = report + \"Front Door Camera: \" + front_door + \"%\\n\"
+        %}\n{% endif %} {% if porch_light != 'unknown' %}\n  {% set report = report
+        + \"Porch Camera: \" + porch_light + \"%\\n\" %}\n{% endif %} {% if garden_camera
+        != 'unknown' %}\n  {% set report = report + \"Garden Camera: \" + garden_camera
+        + \"%\\n\" %}\n{% endif %} {{ report }}\n"
+    action: notify.mobile_app_iphone_11_2
+  mode: single

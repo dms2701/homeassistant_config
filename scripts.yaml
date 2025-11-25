@@ -1,0 +1,95 @@
+shutdown_magicmirror_rpi:
+  alias: Shutdown MagicMirror RPI
+  sequence:
+  - data:
+      host: 192.168.0.100
+      port: 22
+      user: dmorg
+      pass: Warren!Alphabet18
+      command: sudo shutdown
+    action: ssh_command.exec_command
+  description: ''
+goodnight:
+  sequence:
+  - action: alarm_control_panel.alarm_arm_home
+    metadata: {}
+    data:
+      code: '2009'
+    target:
+      device_id: ce7bb7c1b6a6698f04c3d0a415e80c12
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.presence_simulation
+  alias: Goodnight
+  description: ''
+setup_virgin_tivo_and_television:
+  sequence:
+  - type: turn_on
+    device_id: 478f8cc43bd38cdea54a37450c694af0
+    entity_id: 3677294e8b7be7b8a0606dcc5f0d1870
+    domain: remote
+  - action: media_player.select_source
+    metadata: {}
+    data:
+      source: Cable Box
+    target:
+      device_id: 478f8cc43bd38cdea54a37450c694af0
+  alias: Setup Virgin TiVo and Television
+  description: ''
+setup_netflix_and_television:
+  sequence:
+  - type: turn_on
+    device_id: 478f8cc43bd38cdea54a37450c694af0
+    entity_id: 3677294e8b7be7b8a0606dcc5f0d1870
+    domain: remote
+  - action: media_player.select_source
+    metadata: {}
+    data:
+      source: Netflix
+    target:
+      device_id: 478f8cc43bd38cdea54a37450c694af0
+  alias: Setup Netflix and Television
+  description: ''
+setup_ps5_and_television:
+  sequence:
+  - type: turn_on
+    device_id: 478f8cc43bd38cdea54a37450c694af0
+    entity_id: 3677294e8b7be7b8a0606dcc5f0d1870
+    domain: remote
+  - action: huesyncbox.set_sync_state
+    metadata: {}
+    data:
+      power: true
+      input: input2
+    target:
+      device_id: bb7691a2729de16ac5ccc338fc5cba3d
+  - action: media_player.select_source
+    metadata: {}
+    data:
+      source: TiVo
+    target:
+      device_id: 478f8cc43bd38cdea54a37450c694af0
+  - action: huesyncbox.set_sync_state
+    metadata: {}
+    data:
+      sync: false
+    target:
+      device_id: bb7691a2729de16ac5ccc338fc5cba3d
+  alias: Setup PS5 and Television
+  description: ''
+setup_plex_and_television:
+  sequence:
+  - type: turn_on
+    device_id: 478f8cc43bd38cdea54a37450c694af0
+    entity_id: 3677294e8b7be7b8a0606dcc5f0d1870
+    domain: remote
+  - action: media_player.select_source
+    metadata: {}
+    data:
+      source: Plex
+    target:
+      device_id: 478f8cc43bd38cdea54a37450c694af0
+  alias: Setup Plex and Television
+  description: ''
