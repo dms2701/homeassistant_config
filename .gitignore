@@ -8,6 +8,15 @@
 !*.md
 !*.sh
 !*.js*
+!blueprints/
+!custom_components/
+!dwains_dashboard/
+!image/
+!nest/
+!python_scripts/
+!templates/
+!themes/
+!www/
 # Comment these 2 lines if you don't want to include your SSH keys
 #!.ssh/
 #!id_rsa*

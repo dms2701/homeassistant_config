@@ -1,0 +1,12 @@
+#- platform: template
+#  sensors:
+#    lights_on:
+#      friendly_name: 'Number of Lights on'
+#      value_template: "{{ expand('light.presence_simulation') | selectattr('state','eq','on') | list | count }}"
+
+- sensor:
+    - name: "Number of Lights on"
+      unique_id: "number_of_lights_on"
+      icon: mdi:lightbulb-on-outline
+      unit_of_measurement: "Lights"
+      state: "{{ expand('light.presence_simulation') | selectattr('state','eq','on') | list | count }}"

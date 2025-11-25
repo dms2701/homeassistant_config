@@ -1,0 +1,12 @@
+#- platform: template
+#  sensors:
+#    televisions_on:
+#      friendly_name: 'Number of TVs on'      
+#      value_template: "{{ expand('media_player.televisions') | selectattr('state','eq','on') | list | count }}"
+
+- sensor:
+    - name: "Number of TVs on"
+      unique_id: "number_of_tvs_on"
+      icon: mdi:television
+      unit_of_measurement: "TVs"
+      state: "{{ expand('media_player.televisions') | selectattr('state', 'eq', 'on') | list | count }}"

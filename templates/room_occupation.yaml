@@ -1,0 +1,57 @@
+- binary_sensor:
+    - name: "Office Occupancy"
+      unique_id: office_occupancy
+      state: >
+        {% set last_active = states('sensor.dms_wks_lastactive_2') %}
+        {% if last_active not in ['unknown', 'unavailable', 'none', 'None', ''] %}
+          {% set last_dt = as_datetime(last_active) %}
+          {{ (now() - last_dt).total_seconds() < 15 * 60 }}
+        {% else %}
+          false
+        {% endif %}
+      icon: >
+        {% if is_state('binary_sensor.office_occupancy', 'on') %}
+          mdi:desk
+        {% else %}
+          mdi:desk-lamp-off
+        {% endif %}
+- binary_sensor:
+    - name: "Bathroom Occupancy"
+      unique_id: bathroom_occupancy
+      state: >
+        {{ is_state('binary_sensor.bathroom_sensor_motion', 'on')
+          or
+          (now() - states.binary_sensor.bathroom_sensor_motion.last_changed).total_seconds() < 600 }}
+- binary_sensor:
+    - name: "Front Bedroom Occupancy"
+      unique_id: front_bedroom_occupancy
+      state: >
+        {{ is_state('binary_sensor.front_bedroom_sensor_motion', 'on')
+          or
+          (now() - states.binary_sensor.front_bedroom_sensor_motion.last_changed).total_seconds() < 600 }}
+- binary_sensor:
+    - name: "Downstairs Toilet Occupancy"
+      unique_id: downstairs_toilet_occupancy
+      state: >
+        {{ is_state('binary_sensor.downstairs_toilet_sensor_motion', 'on')
+          or
+          (now() - states.binary_sensor.downstairs_toilet_sensor_motion.last_changed).total_seconds() < 600 }}
+- binary_sensor:
+    - name: "Lounge Occupancy"
+      unique_id: lounge_occupancy
+      state: >
+        {% set sensors = [
+          'binary_sensor.ring_motion_sensor_29431_2',
+          'binary_sensor.ring_motion_sensor_58858',
+          'binary_sensor.hue_motion_sensor_1_motion'
+        ] %}
+
+        {% set timeout = 30 * 60 %}
+        
+        {% for s in sensors %}
+          {% if is_state(s, 'on')
+              or (now() - states[s].last_changed).total_seconds() < timeout %}
+            true
+            {% break %}
+          {% endif %}
+        {% endfor %}
